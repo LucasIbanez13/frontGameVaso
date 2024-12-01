@@ -7,17 +7,17 @@ const Game = () => {
   const [result, setResult] = useState(null);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isBallHidden, setIsBallHidden] = useState(true);
-  const [isGameActive, setIsGameActive] = useState(true); // Nuevo estado para controlar si los vasos están habilitados
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const startGame = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/start');
       setPositions(response.data.positions); // Posiciones iniciales
-      setShowBall(null); // Oculta la pelota inicialmente
+      setShowBall(null); // Oculta la pelota
       setIsShuffled(false); // Resetea el estado de mezcla
-      setIsBallHidden(true); // Oculta la pelota
+      setIsBallHidden(false); // Muestra la pelota inicialmente
       setResult(null); // Resetea el resultado
-      setIsGameActive(true); // Habilita los vasos
+      setIsDisabled(false); // Desbloquea los vasos
     } catch (error) {
       console.error('Error al iniciar el juego:', error);
     }
@@ -30,45 +30,52 @@ const Game = () => {
       setIsShuffled(true); // Marca como mezclado
       setIsBallHidden(true); // Oculta la pelota
       setResult(null); // Resetea el resultado
-      setIsGameActive(true); // Habilita los vasos
+      setIsDisabled(false); // Desbloquea los vasos
     } catch (error) {
       console.error('Error al mezclar los vasos:', error);
     }
   };
 
   const makeGuess = (guess) => {
-    if (!isGameActive) return; // Si el juego no está activo, no permite hacer más selecciones
     setIsBallHidden(false); // Revela la pelota
-    setShowBall(positions[0]); // Muestra la posición de la pelota
-    setResult(guess === positions[0] ? 'correct' : 'wrong');
-    setIsGameActive(false); // Bloquea los vasos después de la selección
+    setShowBall(positions[0]); // Muestra la posición correcta
+    setResult(guess === positions[0] ? 'correct' : 'wrong'); // Resultado de la adivinanza
+    setIsDisabled(true); // Bloquea los vasos después de hacer una selección
   };
 
   return (
     <div>
+      <div className='juega'>
       <h1>Encuentra la Pelota</h1>
-      <button onClick={startGame}>Jugar</button>
-      <button onClick={shuffleGame} disabled={positions.length === 0}>
+      <button className='jugar' onClick={startGame}>Jugar</button>
+      <button className='mezclar' onClick={shuffleGame} disabled={positions.length === 0}>
         Mezclar
       </button>
+      </div>
+      
       <div className="vasos-container">
         {positions.map((pos, index) => (
           <div
             key={index}
-            className={`vaso ${!isBallHidden && showBall === index + 1 ? 'red' : ''}`}
-            onClick={() => makeGuess(index + 1)}
+            className="vaso"
+            onClick={() => !isDisabled && makeGuess(index + 1)} // Solo permite seleccionar si no están deshabilitados
             style={{
-              pointerEvents: isGameActive ? 'auto' : 'none', // Deshabilita los clics en los vasos si el juego no está activo
-              opacity: isGameActive ? 1 : 0.5, // Visualmente indica que están deshabilitados
+              pointerEvents: isDisabled ? 'none' : 'auto', // Bloquea clics en vasos deshabilitados
             }}
           >
             <p>Vaso {index + 1}</p>
+            <div className="pelota-container">
+              {!isBallHidden && showBall === index + 1 && (
+                <div className="pelota"></div> // Pelota independiente
+              )}
+            </div>
+            
           </div>
         ))}
       </div>
       {result && (
         <h2 className={`resultado ${result === 'wrong' ? 'wrong' : ''}`}>
-          {result === 'correct' ? '¡wenaa pibe!' : 'Fracasado'}
+          {result === 'correct' ? '¡Wenaa pibe!' : '¡NA NA NA MAL!'}
         </h2>
       )}
     </div>

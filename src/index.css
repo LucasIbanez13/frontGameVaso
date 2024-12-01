@@ -1,61 +1,111 @@
-body {
-  font-family: Arial, sans-serif;
+.juega {
   text-align: center;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.vasos-container {
-  display: flex;
-  justify-content: center;
   margin-top: 20px;
 }
-
-.vaso {
-  width: 100px;
-  height: 150px;
-  border: 2px solid black;
-  margin: 0 10px;
-  cursor: pointer;
-  background-color: white;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  position: relative;
-}
-
-.vaso:hover {
-  background-color: #f0f0f0;
-}
-
-.vaso.red {
-  background-color: red;
+.juega h1{
+  font-size: 50px;
   
 }
 
-.vaso p {
-  margin: 0;
-  position: absolute;
-  bottom: 10px;
-  font-weight: bold;
+.juega button {
+  margin: 0 10px;
+  width: 15%; /* Ancho ligeramente mayor para mayor visibilidad */
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px; /* Tamaño de texto más grande */
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+.jugar {
+  background-color: rgb(57, 44, 245); /* Azul intenso */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra inicial */
+}
+
+.jugar:hover {
+  background-color: rgb(34, 17, 194); /* Azul más oscuro al pasar el mouse */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más fuerte */
+  transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.mezclar {
+  background-color: green; /* Verde inicial */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mezclar:hover {
+  background-color: darkgreen; /* Verde más oscuro al pasar el mouse */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Agregar efecto de clic */
+.juega button:active {
+  transform: translateY(2px); /* Efecto de presionado */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Sombra más cercana */
+}
+.vaso {
+  width: 100px;
+  height: 150px;
+  background-color: #cccccc;
+  border: 2px solid #000;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vaso:hover {
+  transform: scale(1.3) rotate(-1deg); /* Ampliación y leve rotación */
+  background-color: #b3b3b3; /* Color más oscuro en hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+}
+
+.vaso:active {
+  transform: scale(0.95); /* Efecto de presionado */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra más cercana */
+}
+
+.vasos-container {
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  margin: 40px auto;
+  gap: 20px; /* Espaciado entre vasos */
+}
+
+.pelota-container {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pelota {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  top: 45px;
+  background-color: red;
+  border-radius: 50%;
 }
 
 .resultado {
   margin-top: 20px;
   font-size: 24px;
+  text-align: center;
   color: green;
 }
 
 .resultado.wrong {
   color: red;
 }
+
